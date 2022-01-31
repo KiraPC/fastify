@@ -2,12 +2,14 @@ name: Missing Types
 
 on:
   pull_request:
-    types: [labeled]
+    types: [closed]
 
 jobs:
   create_issue:
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'missing-types')
+    if: |
+      github.event.pull_request.merged &&
+      contains(github.event.pull_request.labels.*.name, 'missing-types')
     steps:
       - name: Create an issue
         uses: octokit/request-action@v2.x
